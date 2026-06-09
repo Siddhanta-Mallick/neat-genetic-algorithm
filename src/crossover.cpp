@@ -14,3 +14,12 @@ NeuronGene crossover_neuron(const NeuronGene &a, NeuronGene &b)
     Activation activation = rng.choose(a.activation, b.activation);
     return {neuron_id, bias, activation};
 }
+
+LinkGene corssover_link(const LinkGene &a, LinkGene &b)
+{
+    assert(a.link_id.input_id == b.link_id.input_id && a.link_id.output_id == b.link_id.output_id);
+    LinkId link_id = a.link_id;
+    double weight = rng.choose(a.weight, b.weight);
+    bool is_enabled = rng.choose(a.is_enabled, b.is_enabled);
+    return {link_id, weight, is_enabled};
+}
