@@ -15,7 +15,7 @@ NeuronGene crossover_neuron(const NeuronGene &a, NeuronGene &b)
     return {neuron_id, bias, activation};
 }
 
-LinkGene corssover_link(const LinkGene &a, LinkGene &b)
+LinkGene crossover_link(const LinkGene &a, LinkGene &b)
 {
     assert(a.link_id.input_id == b.link_id.input_id && a.link_id.output_id == b.link_id.output_id);
     LinkId link_id = a.link_id;
