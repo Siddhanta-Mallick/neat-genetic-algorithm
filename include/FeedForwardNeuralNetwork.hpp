@@ -4,25 +4,26 @@
 #include "Genotype.hpp"
 #include <vector>
 
-struct NeuronInput
-{
+struct NeuronInput {
   int input_id;
   double weight;
 };
 
-struct Neuron
-{
+struct Neuron {
   double bias;
   std::vector<NeuronInput> inputs;
   ActivationFn activation;
 };
 
-class FeedForwardNeuralNetwork
-{
+class FeedForwardNeuralNetwork {
 private:
   std::vector<int> input_ids;
   std::vector<int> output_ids;
   std::vector<Neuron> neurons;
+  std::vector<std::vector<int>>
+  toposort_neurons_into_layers(const std::vector<int> inputs,
+                               const std::vector<int> outputs,
+                               const std::vector<LinkGene> &links);
 
 public:
   std::vector<double> outputs;
