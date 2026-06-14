@@ -20,7 +20,7 @@ private:
   std::vector<int> input_ids;
   std::vector<int> output_ids;
   std::vector<Neuron> neurons;
-  std::vector<std::vector<int>>
+  static std::vector<std::vector<int>>
   toposort_neurons_into_layers(const std::vector<int> inputs,
                                const std::vector<int> outputs,
                                const std::vector<LinkGene> &links);
