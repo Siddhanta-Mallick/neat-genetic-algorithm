@@ -1,7 +1,16 @@
 #include "FeedForwardNeuralNetwork.hpp"
+#include <assert.h>
 #include <queue>
 #include <unordered_map>
 #include <vector>
+
+FeedForwardNeuralNetwork::FeedForwardNeuralNetwork(
+    std::vector<int> inputs, std::vector<int> outputs,
+    std::vector<Neuron> neurons) {
+  input_ids = inputs;
+  output_ids = outputs;
+  this->neurons = neurons;
+}
 
 std::vector<std::vector<int>>
 FeedForwardNeuralNetwork::toposort_neurons_into_layers(
@@ -46,4 +55,31 @@ FeedForwardNeuralNetwork::toposort_neurons_into_layers(
   }
 
   return layers;
+}
+
+FeedForwardNeuralNetwork
+FeedForwardNeuralNetwork::create_nn_from_gene(const Genome &genome) {
+  std::vector<int> inputs = genome.get_input_ids();
+  std::vector<int> outputs = genome.get_output_ids();
+  std::vector<std::vector<int>> layers =
+      FeedForwardNeuralNetwork::toposort_neurons_into_layers(
+          inputs, outputs, genome.get_links());
+
+  std::vector<Neuron> neurons;
+
+  for (const auto &layer : layers) {
+    for (int neuron_id : layer) {
+      std::vector<NeuronInput> neuron_inputs;
+      for (auto link : genome.get_links())
+        if (neuron_id == link.link_id.output_id)
+          neuron_inputs.emplace_back(
+              NeuronInput{link.link_id.input_id, link.weight});
+      std::optional<NeuronGene> neuron_gene_opt = genome.find_neuron(neuron_id);
+      assert(neuron_gene_opt.has_value());
+      neurons.emplace_back(
+          Neuron{(*neuron_gene_opt).bias, std::move(neuron_inputs)});
+    }
+  }
+  return FeedForwardNeuralNetwork(std::move(inputs), std::move(outputs),
+                                  std::move(neurons));
 }

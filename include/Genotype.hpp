@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <functional>
 #include <optional>
 #include <vector>
 
@@ -57,6 +58,20 @@ public:
   }
   void add_neuron(const NeuronGene newNeuron) { neurons.push_back(newNeuron); }
   void add_link(const LinkGene newLink) { links.push_back(newLink); }
+
+  std::vector<int> get_input_ids() const {
+    std::vector<int> input_ids;
+    for (int i = 0; i < num_inputs; ++i)
+      input_ids.push_back(-i - 1);
+    return input_ids;
+  }
+
+  std::vector<int> get_output_ids() const {
+    std::vector<int> output_ids;
+    for (int i = 0; i < num_outputs; ++i)
+      output_ids.push_back(i);
+    return output_ids;
+  }
 };
 
 struct Individual {
