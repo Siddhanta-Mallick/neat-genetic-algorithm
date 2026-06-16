@@ -10,6 +10,7 @@ struct NeuronInput {
 };
 
 struct Neuron {
+  int neuron_id;
   double bias;
   std::vector<NeuronInput> inputs;
   Activation activation;

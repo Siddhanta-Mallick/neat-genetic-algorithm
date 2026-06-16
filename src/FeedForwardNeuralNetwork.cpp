@@ -77,7 +77,8 @@ FeedForwardNeuralNetwork::create_nn_from_gene(const Genome &genome) {
       std::optional<NeuronGene> neuron_gene_opt = genome.find_neuron(neuron_id);
       assert(neuron_gene_opt.has_value());
       neurons.emplace_back(
-          Neuron{(*neuron_gene_opt).bias, std::move(neuron_inputs)});
+          Neuron{(*neuron_gene_opt).neuron_id, (*neuron_gene_opt).bias,
+                 std::move(neuron_inputs), (*neuron_gene_opt).activation});
     }
   }
   return FeedForwardNeuralNetwork(std::move(inputs), std::move(outputs),
