@@ -12,7 +12,7 @@ struct NeuronInput {
 struct Neuron {
   double bias;
   std::vector<NeuronInput> inputs;
-  ActivationFn activation;
+  Activation activation;
 };
 
 class FeedForwardNeuralNetwork {
