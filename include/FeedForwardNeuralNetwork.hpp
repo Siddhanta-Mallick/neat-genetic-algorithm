@@ -31,4 +31,5 @@ public:
                            std::vector<Neuron> neurons);
   std::vector<double> outputs;
   static FeedForwardNeuralNetwork create_nn_from_gene(const Genome &genome);
+  std::vector<double> activate(const std::vector<double> inputs);
 };

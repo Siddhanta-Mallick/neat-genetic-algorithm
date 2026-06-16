@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <queue>
 #include <unordered_map>
+#include <variant>
 #include <vector>
 
 FeedForwardNeuralNetwork::FeedForwardNeuralNetwork(
@@ -83,4 +84,35 @@ FeedForwardNeuralNetwork::create_nn_from_gene(const Genome &genome) {
   }
   return FeedForwardNeuralNetwork(std::move(inputs), std::move(outputs),
                                   std::move(neurons));
+}
+
+std::vector<double>
+FeedForwardNeuralNetwork::activate(const std::vector<double> inputs) {
+  assert(inputs.size() == input_ids.size());
+
+  std::unordered_map<int, double> values;
+
+  for (size_t i = 0; i < inputs.size(); ++i) {
+    int input_id = input_ids[i];
+    values[input_id] = inputs[i];
+  }
+
+  for (const auto &neuron : neurons) {
+    double z = 0.0;
+    for (auto input : neuron.inputs) {
+      assert(values.contains(input.input_id));
+      z += input.weight * values[input.input_id];
+    }
+    z += neuron.bias;
+    double a = std::visit(ActivationFn{z}, neuron.activation);
+    values[neuron.neuron_id] = a;
+  }
+
+  std::vector<double> outputs;
+  for (int output_id : output_ids) {
+    assert(values.contains(output_id));
+    outputs.push_back(values[output_id]);
+  }
+
+  return outputs;
 }
