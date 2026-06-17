@@ -6,7 +6,7 @@
 #include "Genotype.hpp"
 #include "Utils.hpp"
 
-Crossover::Crossover(GenomeIndexer &genome_indexer, Rng &rng)
+Crossover::Crossover(Indexer &genome_indexer, Rng &rng)
     : genome_indexer_(genome_indexer), rng_(rng) {}
 
 NeuronGene Crossover::crossover_neuron(const NeuronGene &a, NeuronGene &b) {

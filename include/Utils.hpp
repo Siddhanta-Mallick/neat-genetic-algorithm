@@ -28,11 +28,11 @@ public:
   }
 };
 
-class GenomeIndexer {
+class Indexer {
 private:
   int next_id_;
 
 public:
-  GenomeIndexer(int next_id = 0) : next_id_(next_id) {};
+  Indexer(int next_id = 0) : next_id_(next_id) {};
   int next() { return next_id_++; }
 };
