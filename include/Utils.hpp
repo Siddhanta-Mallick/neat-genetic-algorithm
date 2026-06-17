@@ -5,11 +5,11 @@
 
 class Rng {
 private:
+  double min_;
+  double max_;
   std::random_device rd_;
   std::mt19937 generator_;
   std::uniform_real_distribution<double> distribution_;
-  double min_;
-  double max_;
 
 public:
   Rng(std::optional<long> seed, double min = 0.0, double max = 1.0)
