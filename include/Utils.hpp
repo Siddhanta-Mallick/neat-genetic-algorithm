@@ -1,7 +1,11 @@
 #pragma once
 
+#include <algorithm>
+#include <assert.h>
+#include <cmath>
 #include <optional>
 #include <random>
+#include <vector>
 
 class Rng {
 private:
@@ -25,6 +29,13 @@ public:
       return a;
     else
       return b;
+  }
+
+  template <typename Element>
+  Element &choose_random_element(const std::vector<Element> &arr, int cutoff) {
+    int random_index = std::floor(next() * cutoff);
+    assert(random_index >= 0 && random_index < cutoff);
+    return arr[random_index];
   }
 };
 

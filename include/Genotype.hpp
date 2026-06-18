@@ -74,6 +74,8 @@ public:
   }
 };
 
+const double kFitnessNotComputed = -1;
+
 struct Individual {
   Genome genome;
   double fitness;
