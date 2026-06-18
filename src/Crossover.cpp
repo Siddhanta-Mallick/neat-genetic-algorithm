@@ -6,9 +6,6 @@
 #include "Genotype.hpp"
 #include "Utils.hpp"
 
-Crossover::Crossover(Indexer &genome_indexer, Rng &rng)
-    : genome_indexer_(genome_indexer), rng_(rng) {}
-
 NeuronGene Crossover::crossover_neuron(const NeuronGene &a, NeuronGene &b) {
   assert(a.neuron_id == b.neuron_id);
   int neuron_id = a.neuron_id;
@@ -64,6 +61,6 @@ Genome Crossover::crossover_individual(const Individual &dominant,
       offspring.add_link(crossover_link(dominant_link, *recessive_link));
     else
       offspring.add_link(dominant_link);
-    return offspring;
   }
+  return offspring;
 }
