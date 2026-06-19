@@ -72,6 +72,8 @@ public:
       output_ids.push_back(i);
     return output_ids;
   }
+
+  int get_num_neurons() const { return neurons.size(); }
 };
 
 const double kFitnessNotComputed = -1;
