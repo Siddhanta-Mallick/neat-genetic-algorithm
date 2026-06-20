@@ -45,3 +45,17 @@ TEST_CASE("Adding edge creates long cycle")
 
   REQUIRE(CycleDetector::would_contain_cycle(links, 6, 1, 8, 1) == true);
 }
+
+
+TEST_CASE("Adding link to cause self loop creates cycle")
+{
+  
+  std::vector<LinkGene> links = {
+      {LinkGene{{-1, 0}, 0, true}},
+      {LinkGene{{-2, 0}, 0, true}},
+      {LinkGene{{-3, 1}, 0, true}},
+      {LinkGene{{-4, 1}, 0, true}},
+  };
+
+  REQUIRE(CycleDetector::would_contain_cycle(links, 0, 0, 6, 4) == true);
+}
