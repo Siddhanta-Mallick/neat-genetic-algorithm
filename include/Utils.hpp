@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Genotype.hpp"
 #include <algorithm>
 #include <assert.h>
 #include <cmath>
@@ -46,4 +47,44 @@ private:
 public:
   Indexer(int next_id = 0) : next_id_(next_id) {};
   int next() { return next_id_++; }
+};
+
+class CycleDetector {
+public:
+  static bool dfs(int node, std::vector<std::vector<int>> &graph,
+                  std::vector<int> &state) {
+    if (state[node] == 1)
+      return true;
+    if (state[node] == 2)
+      return false;
+
+    state[node] = 1;
+
+    for (int neighbour : graph[node])
+      if (dfs(neighbour, graph, state))
+        return true;
+
+    state[node] = 2;
+    return false;
+  }
+
+  static bool would_contain_cycle(const std::vector<LinkGene> &links, int input,
+                                  int output, int num_nodes, int num_inputs) {
+    std::vector<std::vector<int>> graph(num_nodes);
+
+    for (const LinkGene link : links)
+      graph[link.link_id.input_id + num_inputs].push_back(
+          link.link_id.output_id + num_inputs);
+
+    graph[input + num_inputs].push_back(output + num_inputs);
+
+    std::vector<int> state(num_nodes, 0);
+
+    for (int i = 0; i < num_nodes; i++)
+      if (state[i] == 0)
+        if (dfs(i, graph, state))
+          return true;
+
+    return false;
+  }
 };
