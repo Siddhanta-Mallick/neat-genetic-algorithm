@@ -1,7 +1,9 @@
 #pragma once
 
 #include <algorithm>
+#include <cstddef>
 #include <functional>
+#include <iterator>
 #include <optional>
 #include <vector>
 
@@ -74,6 +76,15 @@ public:
   }
 
   int get_num_neurons() const { return neurons.size(); }
+
+  void remove_link(LinkGene &link_to_remove) {
+    if (links.empty())
+      return;
+
+    std::ptrdiff_t index = &link_to_remove - &links[0];
+    if (index >= 0 && static_cast<size_t>(index) < links.size())
+      links.erase(links.begin() + index);
+  }
 };
 
 const double kFitnessNotComputed = -1;
