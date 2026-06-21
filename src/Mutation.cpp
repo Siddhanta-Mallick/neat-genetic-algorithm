@@ -53,3 +53,11 @@ void Mutation::mutate_add_link(Genome &genome) {
   LinkGene newLink = LinkMutator::new_value(input_id, output_id);
   genome.add_link(newLink);
 }
+
+void Mutation::mutate_remove_link(Genome &genome) {
+  if (genome.get_links().empty())
+    return;
+  LinkGene &link_to_remove =
+      rng_.choose_random_element(genome.get_links(), genome.get_num_neurons());
+  genome.remove_link(link_to_remove);
+}
