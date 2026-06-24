@@ -10,7 +10,7 @@ Genome::Genome(Rng &rng, int id, int inputs, int outputs)
 
   for (int i = 0; i < num_inputs; ++i) {
     int input_id = -i - 1;
-    for (int output_id = 0; output_id < num_outputs; ++num_outputs) {
+    for (int output_id = 0; output_id < num_outputs; ++output_id) {
       links.push_back(LinkGene{LinkId{input_id, output_id}, rng_.next(), true});
     }
   }
@@ -20,7 +20,7 @@ int Genome::get_genome_id() const { return genome_id; }
 
 int Genome::get_num_inputs() const { return num_inputs; }
 
-int Genome::get_num_ouputs() const { return num_outputs; }
+int Genome::get_num_outputs() const { return num_outputs; }
 
 const std::vector<NeuronGene> &Genome::get_neurons() const { return neurons; }
 
@@ -66,7 +66,7 @@ std::vector<int> Genome::get_output_ids() const {
 
 int Genome::get_num_neurons() const { return neurons.size(); }
 
-void Genome::remove_link(LinkGene &link_to_remove) {
+void Genome::remove_link(const LinkGene &link_to_remove) {
   if (links.empty())
     return;
 

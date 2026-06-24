@@ -34,10 +34,11 @@ private:
   std::vector<LinkGene> links;
 
 public:
+  Genome();
   Genome(Rng &rng, int id = -1, int inputs = 0, int outputs = 0);
   int get_genome_id() const;
   int get_num_inputs() const;
-  int get_num_ouputs() const;
+  int get_num_outputs() const;
   const std::vector<NeuronGene> &get_neurons() const;
   const std::vector<LinkGene> &get_links() const;
   const std::optional<NeuronGene> find_neuron(const int neuron_id) const;
@@ -47,7 +48,7 @@ public:
   std::vector<int> get_input_ids() const;
   std::vector<int> get_output_ids() const;
   int get_num_neurons() const;
-  void remove_link(LinkGene &link_to_remove);
+  void remove_link(const LinkGene &link_to_remove);
   int get_next_neuron_id();
 };
 
