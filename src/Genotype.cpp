@@ -44,11 +44,18 @@ const std::optional<LinkGene> Genome::find_link(const LinkId link_id_x) const {
   return it != links.end() ? std::optional<LinkGene>(*it) : std::nullopt;
 }
 
-void Genome::add_neuron(const NeuronGene newNeuron) {
+void Genome::add_neuron(NeuronGene newNeuron) {
+  if (newNeuron.neuron_id != get_next_neuron_id())
+    newNeuron.neuron_id = get_next_neuron_id();
   neurons.push_back(newNeuron);
 }
 
-void Genome::add_link(const LinkGene newLink) { links.push_back(newLink); }
+void Genome::add_link(const LinkGene newLink) {
+  bool isValidInput = find_neuron(newLink.link_id.input_id).has_value();
+  bool isValidOutput = find_neuron(newLink.link_id.output_id).has_value();
+  if (isValidInput && isValidOutput)
+    links.push_back(newLink);
+}
 
 std::vector<int> Genome::get_input_ids() const {
   std::vector<int> input_ids;

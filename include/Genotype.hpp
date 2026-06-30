@@ -43,7 +43,7 @@ public:
   const std::vector<LinkGene> &get_links() const;
   const std::optional<NeuronGene> find_neuron(const int neuron_id) const;
   const std::optional<LinkGene> find_link(const LinkId link_id_x) const;
-  void add_neuron(const NeuronGene newNeuron);
+  void add_neuron(NeuronGene newNeuron);
   void add_link(const LinkGene newLink);
   std::vector<int> get_input_ids() const;
   std::vector<int> get_output_ids() const;
