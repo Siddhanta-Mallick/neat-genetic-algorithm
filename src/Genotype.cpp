@@ -1,7 +1,6 @@
 #include "Genotype.hpp"
 #include "Utils.hpp"
 #include <algorithm>
-#include <iostream>
 
 Genome::Genome(Rng &rng, int id, int inputs, int outputs)
     : rng_(rng), genome_id(id), num_inputs(inputs), num_outputs(outputs) {
@@ -85,6 +84,25 @@ void Genome::remove_link(const LinkId id_to_remove) {
       });
   if (it != links.end()) {
     links.erase(it);
+  }
+}
+
+void Genome::remove_hidden_neuron(const int neuron_id_to_remove) {
+  if (0 <= neuron_id_to_remove && neuron_id_to_remove < num_outputs)
+    return;
+  if (-num_inputs <= neuron_id_to_remove && neuron_id_to_remove <= -1)
+    return;
+
+  auto it = std::find_if(neurons.begin(), neurons.end(),
+                         [neuron_id_to_remove](const NeuronGene neuron) {
+                           return neuron.neuron_id == neuron_id_to_remove;
+                         });
+  if (it != neurons.end()) {
+    neurons.erase(it);
+    for (LinkGene link : links)
+      if (link.link_id.input_id == neuron_id_to_remove ||
+          link.link_id.output_id == neuron_id_to_remove)
+        remove_link(link.link_id);
   }
 }
 
