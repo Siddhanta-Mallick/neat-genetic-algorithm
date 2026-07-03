@@ -51,6 +51,9 @@ public:
   void remove_link(const LinkId id_to_remove);
   void remove_hidden_neuron(const int neuron_id_to_remove);
   int get_next_neuron_id();
+  bool isOutputNeuron(const int neuron_id);
+  bool isInputNeuron(const int neuron_id);
+  bool isHiddenNeuron(const int neuron_id);
 };
 
 const double kFitnessNotComputed = -1;

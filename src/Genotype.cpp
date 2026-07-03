@@ -107,3 +107,15 @@ void Genome::remove_hidden_neuron(const int neuron_id_to_remove) {
 }
 
 int Genome::get_next_neuron_id() { return neurons.size() - num_inputs; }
+
+bool Genome::isOutputNeuron(const int neuron_id) {
+  return (0 <= neuron_id && neuron_id < num_outputs);
+}
+
+bool Genome::isInputNeuron(const int neuron_id) {
+  return (-num_inputs <= neuron_id && neuron_id <= -1);
+}
+
+bool Genome::isHiddenNeuron(const int neuron_id) {
+  return ((!isInputNeuron(neuron_id)) && (!isOutputNeuron(neuron_id)));
+}
