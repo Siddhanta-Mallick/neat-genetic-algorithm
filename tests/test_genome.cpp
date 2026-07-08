@@ -98,4 +98,41 @@ TEST_CASE("Test add_link") {
   REQUIRE(simple_genome.find_link(LinkId(-20, 0)).has_value() == false);
 }
 
-// remove_link is still untested.
+TEST_CASE("Test remove_link") {
+  int genome_id = 0;
+  int num_inputs = 10;
+  int num_outputs = 5;
+  Genome simple_genome = Genome(rng_genome, genome_id, num_inputs, num_outputs);
+
+  int link_count_before = simple_genome.get_links().size();
+  simple_genome.remove_link(LinkId(-1, 0));
+  int link_count_after = simple_genome.get_links().size();
+
+  REQUIRE(link_count_before - 1 == link_count_after);
+}
+
+TEST_CASE("Test remove_hideen_neuron") {
+  int genome_id = 0;
+  int num_inputs = 3;
+  int num_outputs = 1;
+  Genome simple_genome = Genome(rng_genome, genome_id, num_inputs, num_outputs);
+
+  simple_genome.add_neuron(
+      NeuronGene(simple_genome.get_next_neuron_id(), 0, ReLU()));
+
+  // 3 links associated with the new hidden neuron
+  simple_genome.add_link(LinkGene(LinkId(-1, 1), 0.0, true));
+  simple_genome.add_link(LinkGene(LinkId(-3, 1), 0.0, true));
+  simple_genome.add_link(LinkGene(LinkId(1, 0), 0.0, true));
+
+  int neuron_count_before = simple_genome.get_neurons().size();
+  int link_count_before = simple_genome.get_links().size();
+
+  simple_genome.remove_hidden_neuron(1);
+
+  int neuron_count_after = simple_genome.get_neurons().size();
+  int link_count_after = simple_genome.get_links().size();
+
+  REQUIRE(neuron_count_before - 1 == neuron_count_after);
+  REQUIRE(link_count_before - 3 == link_count_after);
+}

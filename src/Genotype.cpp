@@ -74,23 +74,22 @@ std::vector<int> Genome::get_output_ids() const {
 
 int Genome::get_num_neurons() const { return neurons.size(); }
 
-void Genome::remove_link(const LinkId id_to_remove) {
+std::vector<LinkGene>::iterator Genome::remove_link(const LinkId id_to_remove) {
   if (links.empty())
-    return;
+    return links.end();
   auto it =
       std::find_if(links.begin(), links.end(), [id_to_remove](LinkGene link) {
         return link.link_id.input_id == id_to_remove.input_id &&
                link.link_id.output_id == id_to_remove.output_id;
       });
   if (it != links.end()) {
-    links.erase(it);
+    return links.erase(it);
   }
+  return it;
 }
 
 void Genome::remove_hidden_neuron(const int neuron_id_to_remove) {
-  if (0 <= neuron_id_to_remove && neuron_id_to_remove < num_outputs)
-    return;
-  if (-num_inputs <= neuron_id_to_remove && neuron_id_to_remove <= -1)
+  if (!isHiddenNeuron(neuron_id_to_remove))
     return;
 
   auto it = std::find_if(neurons.begin(), neurons.end(),
@@ -99,10 +98,14 @@ void Genome::remove_hidden_neuron(const int neuron_id_to_remove) {
                          });
   if (it != neurons.end()) {
     neurons.erase(it);
-    for (LinkGene link : links)
+    for (auto it = links.begin(); it != links.end();) {
+      LinkGene link = *it;
       if (link.link_id.input_id == neuron_id_to_remove ||
           link.link_id.output_id == neuron_id_to_remove)
-        remove_link(link.link_id);
+        it = remove_link(link.link_id);
+      else
+        ++it;
+    }
   }
 }
 

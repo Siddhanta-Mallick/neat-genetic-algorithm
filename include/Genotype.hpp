@@ -48,7 +48,7 @@ public:
   std::vector<int> get_input_ids() const;
   std::vector<int> get_output_ids() const;
   int get_num_neurons() const;
-  void remove_link(const LinkId id_to_remove);
+  std::vector<LinkGene>::iterator remove_link(const LinkId id_to_remove);
   void remove_hidden_neuron(const int neuron_id_to_remove);
   int get_next_neuron_id();
   bool isOutputNeuron(const int neuron_id);
