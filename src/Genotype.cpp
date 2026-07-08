@@ -5,14 +5,14 @@
 Genome::Genome(Rng &rng, int id, int inputs, int outputs)
     : rng_(rng), genome_id(id), num_inputs(inputs), num_outputs(outputs) {
   for (int i = 0; i < num_inputs; i++)
-    neurons.push_back(NeuronGene{-i - 1, rng_.next(), ReLU{}});
+    neurons.push_back(NeuronGene{-i - 1, rng_.next_normal(), ReLU{}});
   for (int i = 0; i < num_outputs; i++)
-    neurons.push_back(NeuronGene{i, rng_.next(), Sigmoid{}});
+    neurons.push_back(NeuronGene{i, rng_.next_normal(), Sigmoid{}});
 
   for (int i = 0; i < num_inputs; ++i) {
     int input_id = -i - 1;
     for (int output_id = 0; output_id < num_outputs; ++output_id) {
-      links.push_back(LinkGene{LinkId{input_id, output_id}, rng_.next(), true});
+      links.push_back(LinkGene{LinkId{input_id, output_id}, rng_.next_normal(), true});
     }
   }
 }
