@@ -1,4 +1,3 @@
-#define CATCH_CONFIG_MAIN
 #include "Genotype.hpp"
 #include "Utils.hpp"
 #include <../external/catch.hpp>
