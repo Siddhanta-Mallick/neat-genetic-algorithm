@@ -16,4 +16,8 @@ struct MutationConfig
   double mutation_rate = 0.2;
   double mutation_power = 1.2;
   double replacement_rate = 0.05;
+  const double add_link_rate = 0.05;
+  const double add_neuron_rate = 0.03;
+  const double remove_link_rate = 0.005;
+  const double remove_neuron_rate = 0.001;
 };
