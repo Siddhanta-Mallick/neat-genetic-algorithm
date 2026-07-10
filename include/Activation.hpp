@@ -14,6 +14,8 @@ struct Sigmoid
     double p = 1.0;
 
     double operator()(double x) const { return 1.0 / (1.0 + std::exp(-x / p)); }
+
+    bool operator==(const Sigmoid&) const = default;
 };
 
 struct ReLU
@@ -22,6 +24,8 @@ struct ReLU
     {
         return std::max(0.0, x);
     }
+
+    bool operator==(const ReLU&) const = default;
 };
 
 using Activation = std::variant<Sigmoid, ReLU>;
