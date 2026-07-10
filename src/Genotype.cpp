@@ -121,15 +121,23 @@ bool Genome::isInputNeuron(const int neuron_id) {
 bool Genome::isHiddenNeuron(const int neuron_id) {
   return ((!isInputNeuron(neuron_id)) && (!isOutputNeuron(neuron_id)));
 }
-
 void Genome::set_link_weight(LinkId link_id, double new_weight) {
-  auto it = find_link(link_id);
-  if (it.has_value())
-    (*it).weight = new_weight;
+  auto it =
+      std::find_if(links.begin(), links.end(), [link_id](const LinkGene &link) {
+        return link_id.input_id == link.link_id.input_id &&
+               link_id.output_id == link.link_id.output_id;
+      });
+  if (it != links.end()) {
+    it->weight = new_weight; // Modifies the actual link in the vector
+  }
 }
 
 void Genome::set_neuron_bias(int neuron_id, double new_bias) {
-  auto it = find_neuron(neuron_id);
-  if (it.has_value())
-    (*it).bias = new_bias;
+  auto it = std::find_if(neurons.begin(), neurons.end(),
+                         [neuron_id](const NeuronGene &neuron) {
+                           return neuron.neuron_id == neuron_id;
+                         });
+  if (it != neurons.end()) {
+    it->bias = new_bias;
+  }
 }
