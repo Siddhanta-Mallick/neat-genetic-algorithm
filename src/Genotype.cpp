@@ -12,7 +12,8 @@ Genome::Genome(Rng &rng, int id, int inputs, int outputs)
   for (int i = 0; i < num_inputs; ++i) {
     int input_id = -i - 1;
     for (int output_id = 0; output_id < num_outputs; ++output_id) {
-      links.push_back(LinkGene{LinkId{input_id, output_id}, rng_.next_normal(), true});
+      links.push_back(
+          LinkGene{LinkId{input_id, output_id}, rng_.next_normal(), true});
     }
   }
 }

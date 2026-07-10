@@ -16,6 +16,10 @@ struct NeuronGene {
 struct LinkId {
   int input_id;
   int output_id;
+
+  bool operator==(const LinkId &other) const {
+    return (input_id == other.input_id && output_id == other.output_id);
+  }
 };
 
 struct LinkGene {
