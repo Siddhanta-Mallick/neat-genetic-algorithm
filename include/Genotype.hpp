@@ -41,6 +41,8 @@ public:
   int get_num_outputs() const;
   const std::vector<NeuronGene> &get_neurons() const;
   const std::vector<LinkGene> &get_links() const;
+  void set_neuron_bias(int neuron_id, double new_bias);
+  void set_link_weight(LinkId link_id, double new_weight);
   const std::optional<NeuronGene> find_neuron(const int neuron_id) const;
   const std::optional<LinkGene> find_link(const LinkId link_id_x) const;
   void add_neuron(NeuronGene newNeuron);

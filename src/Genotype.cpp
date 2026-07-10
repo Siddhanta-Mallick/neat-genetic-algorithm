@@ -122,3 +122,15 @@ bool Genome::isInputNeuron(const int neuron_id) {
 bool Genome::isHiddenNeuron(const int neuron_id) {
   return ((!isInputNeuron(neuron_id)) && (!isOutputNeuron(neuron_id)));
 }
+
+void Genome::set_link_weight(LinkId link_id, double new_weight) {
+  auto it = find_link(link_id);
+  if (it.has_value())
+    (*it).weight = new_weight;
+}
+
+void Genome::set_neuron_bias(int neuron_id, double new_bias) {
+  auto it = find_neuron(neuron_id);
+  if (it.has_value())
+    (*it).bias = new_bias;
+}
