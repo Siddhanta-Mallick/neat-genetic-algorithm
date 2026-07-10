@@ -33,8 +33,7 @@ Genome Crossover::crossover(const Individual &p1, const Individual &p2) {
 Genome Crossover::crossover_individual(const Individual &dominant,
                                        const Individual &recessive) {
 
-  Genome offspring{genome_indexer_.next(), dominant.genome.get_num_ouputs(),
-                   dominant.genome.get_num_ouputs()};
+  Genome offspring(rng_, genome_indexer_.next());
 
   // Iherit the neurons - cross over matching neurons otherwise select the
   // dominant one

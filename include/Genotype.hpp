@@ -38,8 +38,8 @@ private:
   std::vector<LinkGene> links;
 
 public:
-  Genome();
-  Genome(Rng &rng, int id = -1, int inputs = 0, int outputs = 0);
+  Genome(Rng &rng, int id);
+  Genome(Rng &rng, int id, int inputs, int outputs);
   int get_genome_id() const;
   int get_num_inputs() const;
   int get_num_outputs() const;

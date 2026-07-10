@@ -18,6 +18,8 @@ Genome::Genome(Rng &rng, int id, int inputs, int outputs)
   }
 }
 
+Genome::Genome(Rng &rng, int id) : rng_(rng), genome_id(id) {}
+
 int Genome::get_genome_id() const { return genome_id; }
 
 int Genome::get_num_inputs() const { return num_inputs; }
@@ -46,11 +48,7 @@ const std::optional<LinkGene> Genome::find_link(const LinkId link_id_x) const {
   return it != links.end() ? std::optional<LinkGene>(*it) : std::nullopt;
 }
 
-void Genome::add_neuron(NeuronGene newNeuron) {
-  if (newNeuron.neuron_id != get_next_neuron_id())
-    newNeuron.neuron_id = get_next_neuron_id();
-  neurons.push_back(newNeuron);
-}
+void Genome::add_neuron(NeuronGene newNeuron) { neurons.push_back(newNeuron); }
 
 void Genome::add_link(const LinkGene newLink) {
   bool isValidInput = find_neuron(newLink.link_id.input_id).has_value();
