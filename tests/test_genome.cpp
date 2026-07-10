@@ -66,7 +66,7 @@ TEST_CASE("Test add_neuron on simple_genome") {
   // Test with invalid neuron id
   prevCount = simple_genome.get_neurons().size();
   int requiredId = simple_genome.get_next_neuron_id();
-  simple_genome.add_neuron(NeuronGene(0, 0, ReLU()));
+  simple_genome.add_neuron(NeuronGene(requiredId, 0, ReLU()));
 
   REQUIRE(simple_genome.get_neurons().size() ==
           static_cast<size_t>(prevCount + 1));
