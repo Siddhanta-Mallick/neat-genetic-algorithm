@@ -141,3 +141,14 @@ void Genome::set_neuron_bias(int neuron_id, double new_bias) {
     it->bias = new_bias;
   }
 }
+
+void Genome::set_link_enabled(LinkId link_id, bool status) {
+  auto it =
+      std::find_if(links.begin(), links.end(), [link_id](const LinkGene &link) {
+        return link_id.input_id == link.link_id.input_id &&
+               link_id.output_id == link.link_id.output_id;
+      });
+  if (it != links.end()) {
+    it->is_enabled = status; // Modifies the actual link in the vector
+  }
+}
