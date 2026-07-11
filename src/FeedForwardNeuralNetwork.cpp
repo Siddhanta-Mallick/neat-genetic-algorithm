@@ -81,6 +81,10 @@ FeedForwardNeuralNetwork::create_nn_from_gene(const Genome &genome) {
 
   for (const auto &layer : layers) {
     for (int neuron_id : layer) {
+
+      if (std::find(inputs.begin(), inputs.end(), neuron_id) != inputs.end())
+        continue;
+
       std::vector<NeuronInput> neuron_inputs;
       for (auto link : genome.get_links())
         if (neuron_id == link.link_id.output_id)
