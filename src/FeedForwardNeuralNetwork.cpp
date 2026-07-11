@@ -1,7 +1,9 @@
 #include "FeedForwardNeuralNetwork.hpp"
+#include <algorithm>
 #include <assert.h>
 #include <queue>
 #include <unordered_map>
+#include <unordered_set>
 #include <variant>
 #include <vector>
 
@@ -21,17 +23,26 @@ FeedForwardNeuralNetwork::toposort_neurons_into_layers(
   std::vector<std::vector<int>> layers;
   std::unordered_map<int, std::vector<int>> adj;
   std::unordered_map<int, int> indegree;
+  std::unordered_set<int> all_nodes;
+
+  for (int id : inputs)
+    all_nodes.insert(id);
+  for (int id : outputs)
+    all_nodes.insert(id);
 
   for (const auto &link : links) {
     if (link.is_enabled) {
+      all_nodes.insert(link.link_id.input_id);
+      all_nodes.insert(link.link_id.output_id);
       adj[link.link_id.input_id].push_back(link.link_id.output_id);
       indegree[link.link_id.output_id]++;
     }
   }
 
   std::queue<int> q;
-  for (int input_id : inputs) {
-    q.push(input_id);
+  for (int node_id : all_nodes) {
+    if (indegree[node_id] == 0)
+      q.push(node_id);
   }
 
   while (!q.empty()) {
