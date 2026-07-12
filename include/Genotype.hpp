@@ -2,6 +2,7 @@
 
 #include "Activation.hpp"
 #include <cstddef>
+#include <functional>
 #include <optional>
 #include <vector>
 
@@ -30,7 +31,7 @@ struct LinkGene {
 
 class Genome {
 private:
-  Rng &rng_;
+  std::reference_wrapper<Rng> rng_;
   int genome_id;
   int num_inputs;
   int num_outputs;

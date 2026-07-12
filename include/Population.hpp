@@ -12,7 +12,6 @@ private:
   Rng &rng_;
   NeatConfig config_;
 
-  Genome new_genome();
   void update_best();
   std::vector<Individual> reproduce();
 
