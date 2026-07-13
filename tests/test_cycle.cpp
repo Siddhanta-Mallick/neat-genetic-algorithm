@@ -11,7 +11,7 @@ TEST_CASE("Simple DAG - no cycle") {
       {LinkGene{{-4, 1}, 0, true}},
   };
 
-  REQUIRE(CycleDetector::would_contain_cycle(links, 0, 1, 6, 4) == false);
+  REQUIRE(CycleDetector::would_contain_cycle(links, 0, 1) == false);
 }
 
 TEST_CASE("Adding edge creates cycle")
@@ -26,7 +26,7 @@ TEST_CASE("Adding edge creates cycle")
       {LinkGene{{4, 3}, 0, true}}
   };
 
-  REQUIRE(CycleDetector::would_contain_cycle(links, 2, 3, 6, 1) == true);
+  REQUIRE(CycleDetector::would_contain_cycle(links, 2, 3) == true);
 }
 
 TEST_CASE("Adding edge creates long cycle")
@@ -42,7 +42,7 @@ TEST_CASE("Adding edge creates long cycle")
       {LinkGene{{6, 0}, 0, true}}
   };
 
-  REQUIRE(CycleDetector::would_contain_cycle(links, 6, 1, 8, 1) == true);
+  REQUIRE(CycleDetector::would_contain_cycle(links, 6, 1) == true);
 }
 
 
@@ -56,5 +56,17 @@ TEST_CASE("Adding link to cause self loop creates cycle")
       {LinkGene{{-4, 1}, 0, true}},
   };
 
-  REQUIRE(CycleDetector::would_contain_cycle(links, 0, 0, 6, 4) == true);
+  REQUIRE(CycleDetector::would_contain_cycle(links, 0, 0) == true);
+}
+
+TEST_CASE("Out of bounds and sparse IDs do not trigger memory corruption")
+{
+  std::vector<LinkGene> links = {
+      {LinkGene{{-10, 0}, 0, true}},
+      {LinkGene{{0, 150}, 0, true}},
+  };
+
+  REQUIRE(CycleDetector::would_contain_cycle(links, 150, -10) == true);
+  
+  REQUIRE(CycleDetector::would_contain_cycle(links, -10, 150) == false);
 }

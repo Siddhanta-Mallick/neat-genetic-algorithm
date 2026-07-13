@@ -5,6 +5,7 @@
 #include <cmath>
 #include <optional>
 #include <random>
+#include <unordered_map>
 #include <vector>
 
 #include "Genotype.hpp"
@@ -58,8 +59,8 @@ public:
 
 class CycleDetector {
 public:
-  static bool dfs(int node, std::vector<std::vector<int>> &graph,
-                  std::vector<int> &state) {
+  static bool dfs(int node, std::unordered_map<int, std::vector<int>> &graph,
+                  std::unordered_map<int, int> &state) {
     if (state[node] == 1)
       return true;
     if (state[node] == 2)
@@ -76,20 +77,21 @@ public:
   }
 
   static bool would_contain_cycle(const std::vector<LinkGene> &links, int input,
-                                  int output, int num_nodes, int num_inputs) {
-    std::vector<std::vector<int>> graph(num_nodes);
+                                  int output) {
+    std::unordered_map<int, std::vector<int>> graph;
 
     for (const LinkGene link : links)
-      graph[link.link_id.input_id + num_inputs].push_back(
-          link.link_id.output_id + num_inputs);
+      graph[link.link_id.input_id].push_back(link.link_id.output_id);
 
-    graph[input + num_inputs].push_back(output + num_inputs);
+    graph[input].push_back(output);
 
-    std::vector<int> state(num_nodes, 0);
+    std::unordered_map<int, int> state;
 
-    for (int i = 0; i < num_nodes; i++)
-      if (state[i] == 0)
-        if (dfs(i, graph, state))
+    for (const auto &pair : graph)
+      // Values are auto initialized to 0 if key does not exist. No need for a
+      // default 0 val.
+      if (state[pair.first] == 0)
+        if (dfs(pair.first, graph, state))
           return true;
 
     return false;

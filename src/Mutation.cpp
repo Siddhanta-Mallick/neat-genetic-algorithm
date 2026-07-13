@@ -49,8 +49,7 @@ bool Mutation::mutate_add_link(Genome &genome) {
   int output_id = Mutation::choose_random_output_or_hidden(genome);
 
   if (CycleDetector::would_contain_cycle(genome.get_links(), input_id,
-                                         output_id, genome.get_num_neurons(),
-                                         genome.get_num_inputs()))
+                                         output_id))
     return false;
   if (genome.find_link(LinkId(input_id, output_id)).has_value())
     return false;
